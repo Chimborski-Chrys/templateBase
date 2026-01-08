@@ -1,6 +1,6 @@
-# SaaS Boilerplate - Vue 3 + Vite
+# Template Base - Vue 3 + Vite
 
-Template base completo para projetos SaaS com autenticação RBAC, gestão de usuários e sistema de temas dinâmicos.
+Template base completo para projetos front end com autenticação RBAC, gestão de usuários e sistema de temas dinâmicos.
 
 ## Stack Tecnológica
 
