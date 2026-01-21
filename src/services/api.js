@@ -27,7 +27,7 @@ api.interceptors.request.use(
   }
 )
 
-// Response Interceptor - Interceptar 401 e forçar logout
+// Response Interceptor - Interceptar 401 e mostrar modal de sessão expirada
 api.interceptors.response.use(
   (response) => {
     return response
@@ -35,8 +35,15 @@ api.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       const authStore = useAuthStore()
-      authStore.logout()
-      router.push('/login')
+
+      // Se estiver autenticado e receber 401, significa que o token expirou
+      if (authStore.isAuthenticated) {
+        authStore.handleSessionExpired()
+        authStore.logout()
+      } else {
+        // Se não estava autenticado, apenas redireciona para login
+        router.push('/login')
+      }
     }
 
     return Promise.reject(error)

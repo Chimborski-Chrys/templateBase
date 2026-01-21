@@ -51,7 +51,7 @@ const quickActions = computed(() => [
             </div>
             <div>
               <h1 class="text-xl font-bold">Dashboard</h1>
-              <p class="text-sm text-muted-foreground">SaaS Boilerplate</p>
+              <p class="text-sm text-muted-foreground">Base Template</p>
             </div>
           </div>
           <BaseButton @click="handleLogout" variant="outline" size="sm">
@@ -70,9 +70,6 @@ const quickActions = computed(() => [
           <div>
             <h2 class="text-2xl font-bold mb-2">Olá, {{ userName }}!</h2>
             <p class="text-muted-foreground mb-1">{{ userEmail }}</p>
-            <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 text-primary">
-              {{ userRole?.toUpperCase() }}
-            </div>
           </div>
         </div>
       </BaseCard>
@@ -102,26 +99,6 @@ const quickActions = computed(() => [
             </BaseCard>
           </RouterLink>
         </div>
-      </div>
-
-      <!-- Demo: Gradient Button -->
-      <div class="mt-8">
-        <BaseCard title="Exemplo de Botão com Gradiente">
-          <div class="flex gap-4 flex-wrap">
-            <BaseButton variant="gradient">
-              Botão com Gradiente
-            </BaseButton>
-            <BaseButton variant="primary">
-              Botão Primary
-            </BaseButton>
-            <BaseButton variant="secondary">
-              Botão Secondary
-            </BaseButton>
-            <BaseButton variant="outline">
-              Botão Outline
-            </BaseButton>
-          </div>
-        </BaseCard>
       </div>
     </main>
   </div>

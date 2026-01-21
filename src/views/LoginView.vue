@@ -23,6 +23,12 @@ const errors = ref({
 })
 
 const isLoading = ref(false)
+const sessionExpiredMessage = ref('')
+
+// Verificar se o usuário foi redirecionado por expiração do token
+if (route.query.expired === 'true') {
+  sessionExpiredMessage.value = 'Sua sessão expirou. Por favor, faça login novamente.'
+}
 
 const validateForm = () => {
   let isValid = true
@@ -77,6 +83,10 @@ const handleLogin = async () => {
           <p class="text-sm text-muted-foreground">Entre com suas credenciais para acessar</p>
         </div>
       </template>
+
+      <div v-if="sessionExpiredMessage" class="mb-4 p-3 rounded-md bg-amber-500/10 border border-amber-500">
+        <p class="text-sm text-amber-600 dark:text-amber-400">{{ sessionExpiredMessage }}</p>
+      </div>
 
       <form @submit.prevent="handleLogin" class="space-y-4">
         <BaseInput

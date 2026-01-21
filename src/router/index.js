@@ -66,6 +66,17 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.meta.requiresAuth
   const requiredRoles = to.meta.roles
 
+  // Verificar expiração do token antes de cada navegação
+  if (authStore.isAuthenticated) {
+    const isExpired = authStore.checkTokenExpiration()
+    if (isExpired && to.name !== 'Login') {
+      return next({
+        name: 'Login',
+        query: { redirect: to.fullPath, expired: 'true' },
+      })
+    }
+  }
+
   // Check if route requires authentication
   if (requiresAuth && !authStore.isAuthenticated) {
     return next({
