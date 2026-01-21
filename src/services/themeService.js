@@ -152,6 +152,10 @@ export function applyTheme(settings) {
   root.style.setProperty('--accent', hexToRgb(settings.accentColor))
   root.style.setProperty('--accent-foreground', '255 255 255')
 
+  // Success usa uma variação mais clara do accent para criar gradientes bonitos
+  root.style.setProperty('--success', lighten(settings.accentColor, 10))
+  root.style.setProperty('--success-foreground', '255 255 255')
+
   // Ring (focus) usa cor primária
   root.style.setProperty('--ring', hexToRgb(settings.primaryColor))
 

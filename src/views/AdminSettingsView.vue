@@ -218,30 +218,143 @@ const handleSave = async () => {
           </div>
         </div>
 
-        <!-- Preview das cores -->
-        <div class="rounded-lg bg-muted p-4">
-          <h4 class="text-sm font-medium text-foreground mb-3">Preview</h4>
-          <div class="flex flex-wrap gap-3">
-            <div class="flex items-center space-x-2">
-              <div
-                class="h-10 w-10 rounded-md shadow-md"
+        <!-- Preview das cores e componentes -->
+        <div class="rounded-lg bg-muted p-6 space-y-6">
+          <div>
+            <h4 class="text-sm font-medium text-foreground mb-3">Preview das Cores</h4>
+            <div class="flex flex-wrap gap-3">
+              <div class="flex items-center space-x-2">
+                <div
+                  class="h-10 w-10 rounded-md shadow-md"
+                  :style="{ backgroundColor: formData.primaryColor }"
+                ></div>
+                <span class="text-sm text-muted-foreground">Primária</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div
+                  class="h-10 w-10 rounded-md shadow-md"
+                  :style="{ backgroundColor: formData.secondaryColor }"
+                ></div>
+                <span class="text-sm text-muted-foreground">Secundária</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div
+                  class="h-10 w-10 rounded-md shadow-md"
+                  :style="{ backgroundColor: formData.accentColor }"
+                ></div>
+                <span class="text-sm text-muted-foreground">Destaque</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-sm font-medium text-foreground mb-3">Preview dos Botões</h4>
+            <div class="flex flex-wrap gap-3">
+              <button
+                type="button"
+                class="px-4 py-2 rounded-md text-white font-medium transition-colors"
                 :style="{ backgroundColor: formData.primaryColor }"
-              ></div>
-              <span class="text-sm text-muted-foreground">Primária</span>
-            </div>
-            <div class="flex items-center space-x-2">
-              <div
-                class="h-10 w-10 rounded-md shadow-md"
+              >
+                Botão Primário
+              </button>
+              <button
+                type="button"
+                class="px-4 py-2 rounded-md text-white font-medium transition-colors"
                 :style="{ backgroundColor: formData.secondaryColor }"
-              ></div>
-              <span class="text-sm text-muted-foreground">Secundária</span>
-            </div>
-            <div class="flex items-center space-x-2">
-              <div
-                class="h-10 w-10 rounded-md shadow-md"
+              >
+                Botão Secundário
+              </button>
+              <button
+                type="button"
+                class="px-4 py-2 rounded-md text-white font-medium transition-colors"
                 :style="{ backgroundColor: formData.accentColor }"
-              ></div>
-              <span class="text-sm text-muted-foreground">Destaque</span>
+              >
+                Botão Destaque
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-sm font-medium text-foreground mb-3">Preview de Gradientes</h4>
+            <div class="flex flex-wrap gap-3">
+              <button
+                type="button"
+                class="px-4 py-2 rounded-md text-white font-medium transition-all"
+                :style="{
+                  background: `linear-gradient(to right, ${formData.primaryColor}, ${formData.secondaryColor})`
+                }"
+              >
+                Gradiente 1 (Primary → Secondary)
+              </button>
+              <button
+                type="button"
+                class="px-4 py-2 rounded-md text-white font-medium transition-all"
+                :style="{
+                  background: `linear-gradient(to right, ${formData.secondaryColor}, ${formData.accentColor})`
+                }"
+              >
+                Gradiente 2 (Secondary → Accent)
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-sm font-medium text-foreground mb-3">Preview de Badges</h4>
+            <div class="flex flex-wrap gap-3 items-center">
+              <span
+                class="px-3 py-1 rounded-full text-xs font-semibold text-white"
+                :style="{ backgroundColor: formData.primaryColor }"
+              >
+                Badge Primário
+              </span>
+              <span
+                class="px-3 py-1 rounded-full text-xs font-semibold text-white"
+                :style="{ backgroundColor: formData.secondaryColor }"
+              >
+                Badge Secundário
+              </span>
+              <span
+                class="px-3 py-1 rounded-full text-xs font-semibold text-white"
+                :style="{ backgroundColor: formData.accentColor }"
+              >
+                Sucesso
+              </span>
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-destructive text-white">
+                Erro
+              </span>
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-warning text-white">
+                Alerta
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-sm font-medium text-foreground mb-3">Preview de Alertas</h4>
+            <div class="space-y-3">
+              <div
+                class="p-3 rounded-md border-l-4 text-sm"
+                :style="{
+                  backgroundColor: `${formData.primaryColor}20`,
+                  borderColor: formData.primaryColor
+                }"
+              >
+                <strong :style="{ color: formData.primaryColor }">Informação:</strong> Esta é uma mensagem informativa usando a cor primária.
+              </div>
+              <div
+                class="p-3 rounded-md border-l-4 text-sm"
+                :style="{
+                  backgroundColor: `${formData.accentColor}20`,
+                  borderColor: formData.accentColor
+                }"
+              >
+                <strong :style="{ color: formData.accentColor }">Sucesso:</strong> Operação realizada com sucesso usando a cor de destaque.
+              </div>
+              <div class="p-3 rounded-md bg-destructive/10 border-l-4 border-destructive text-sm">
+                <strong class="text-destructive">Erro:</strong> Ocorreu um erro na operação (cor fixa do sistema).
+              </div>
+              <div class="p-3 rounded-md bg-warning/10 border-l-4 border-warning text-sm">
+                <strong class="text-warning">Alerta:</strong> Atenção necessária (cor fixa do sistema).
+              </div>
             </div>
           </div>
         </div>
