@@ -2,12 +2,18 @@
 import { RouterView } from 'vue-router'
 import { onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useSettingsStore } from '@/stores/settings'
 import SessionExpiredModal from '@/components/SessionExpiredModal.vue'
 
 const authStore = useAuthStore()
+const settingsStore = useSettingsStore()
 
-// Restaurar sessão ao iniciar o app
-onMounted(() => {
+// Carregar configurações e restaurar sessão ao iniciar o app
+onMounted(async () => {
+  // Carregar configurações de white-label
+  await settingsStore.loadSettings()
+
+  // Restaurar sessão do usuário
   authStore.restoreSession()
 })
 </script>

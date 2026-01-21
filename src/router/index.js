@@ -5,6 +5,7 @@ import { useAuthStore } from '@/stores/auth'
 import LoginView from '@/views/LoginView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import AdminUserView from '@/views/AdminUserView.vue'
+import AdminSettingsView from '@/views/AdminSettingsView.vue'
 import ChangePasswordView from '@/views/ChangePasswordView.vue'
 import AccessDeniedView from '@/views/AccessDeniedView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
@@ -36,6 +37,15 @@ const routes = [
     path: '/admin/users',
     name: 'AdminUsers',
     component: AdminUserView,
+    meta: {
+      requiresAuth: true,
+      roles: ['admin'],
+    },
+  },
+  {
+    path: '/admin/settings',
+    name: 'AdminSettings',
+    component: AdminSettingsView,
     meta: {
       requiresAuth: true,
       roles: ['admin'],

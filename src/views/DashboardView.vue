@@ -4,7 +4,7 @@ import { useAuthStore } from '@/stores/auth'
 import { RouterLink, useRouter } from 'vue-router'
 import BaseCard from '@/components/ui/BaseCard.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
-import { LayoutDashboard, Users, Lock, LogOut } from 'lucide-vue-next'
+import { LayoutDashboard, Users, Lock, LogOut, Settings } from 'lucide-vue-next'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -27,6 +27,14 @@ const quickActions = computed(() => [
     route: '/admin/users',
     visible: isAdmin.value,
     color: 'from-primary to-secondary'
+  },
+  {
+    title: 'Configurações do Sistema',
+    description: 'Personalizar marca, cores e identidade visual',
+    icon: Settings,
+    route: '/admin/settings',
+    visible: isAdmin.value,
+    color: 'from-secondary to-accent'
   },
   {
     title: 'Alterar Senha',
