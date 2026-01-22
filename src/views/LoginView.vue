@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { useSettingsStore } from '@/stores/settings'
 import BaseInput from '@/components/ui/BaseInput.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import BaseCard from '@/components/ui/BaseCard.vue'
@@ -10,6 +11,11 @@ import { LogIn } from 'lucide-vue-next'
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
+const settingsStore = useSettingsStore()
+
+// Settings
+const brandName = computed(() => settingsStore.settings?.brandName || 'Base Template')
+const logoUrl = computed(() => settingsStore.settings?.logoUrl)
 
 const formData = ref({
   email: '',
@@ -76,11 +82,18 @@ const handleLogin = async () => {
     <BaseCard class="w-full max-w-md">
       <template #header>
         <div class="flex flex-col items-center space-y-2 text-center">
-          <div class="h-12 w-12 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+          <!-- Logo ou ícone padrão -->
+          <img
+            v-if="logoUrl"
+            :src="logoUrl"
+            :alt="brandName"
+            class="h-16 w-auto max-w-[200px] object-contain"
+          />
+          <div v-else class="h-12 w-12 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
             <LogIn class="h-6 w-6 text-white" />
           </div>
           <h1 class="text-2xl font-bold">Bem-vindo</h1>
-          <p class="text-sm text-muted-foreground">Entre com suas credenciais para acessar</p>
+          <p class="text-sm text-muted-foreground">Entre com suas credenciais para acessar o {{ brandName }}</p>
         </div>
       </template>
 

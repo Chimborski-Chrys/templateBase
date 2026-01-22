@@ -49,6 +49,7 @@ const routes = [
     meta: {
       requiresAuth: true,
       roles: ['admin'],
+      requiresRootAdmin: true,  // Apenas admin raiz (sem CreatedById)
     },
   },
   {
@@ -100,6 +101,11 @@ router.beforeEach((to, from, next) => {
     if (!authStore.hasRole(requiredRoles)) {
       return next({ name: 'AccessDenied' })
     }
+  }
+
+  // Check if route requires root admin (only first admin without CreatedById)
+  if (to.meta.requiresRootAdmin && !authStore.isRootAdmin) {
+    return next({ name: 'AccessDenied' })
   }
 
   // Redirect authenticated users away from login

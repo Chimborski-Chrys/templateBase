@@ -16,6 +16,7 @@ export const useAuthStore = defineStore('auth', () => {
   const userName = computed(() => user.value?.name || '')
   const userEmail = computed(() => user.value?.email || '')
   const isAdmin = computed(() => hasRole('admin'))
+  const isRootAdmin = computed(() => hasRole('admin') && user.value?.createdById === null)
 
   // Helper: Check if user has specific role
   const hasRole = (roles) => {
@@ -50,13 +51,14 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await api.post('/auth/login', credentials)
       const data = response.data
 
-      // Backend retorna: { token, email, name, role, expiresAt }
+      // Backend retorna: { token, email, name, role, expiresAt, createdById }
       token.value = data.token
       user.value = {
         email: data.email,
         name: data.name,
         role: data.role,
-        expiresAt: data.expiresAt
+        expiresAt: data.expiresAt,
+        createdById: data.createdById
       }
 
       // Persist to localStorage
@@ -177,6 +179,7 @@ export const useAuthStore = defineStore('auth', () => {
     userName,
     userEmail,
     isAdmin,
+    isRootAdmin,
     // Actions
     login,
     logout,
