@@ -1,18 +1,25 @@
 <script setup>
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useSettingsStore } from '@/stores/settings'
 import { RouterLink, useRouter } from 'vue-router'
 import BaseCard from '@/components/ui/BaseCard.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
-import { LayoutDashboard, Users, Lock, LogOut } from 'lucide-vue-next'
+import { LayoutDashboard, Users, Lock, LogOut, Settings } from 'lucide-vue-next'
 
 const authStore = useAuthStore()
+const settingsStore = useSettingsStore()
 const router = useRouter()
 
 const userName = computed(() => authStore.userName)
 const userEmail = computed(() => authStore.userEmail)
 const userRole = computed(() => authStore.userRole)
 const isAdmin = computed(() => authStore.isAdmin)
+const isRootAdmin = computed(() => authStore.isRootAdmin)
+
+// Settings
+const brandName = computed(() => settingsStore.settings?.brandName || 'Base Template')
+const logoUrl = computed(() => settingsStore.settings?.logoUrl)
 
 const handleLogout = () => {
   authStore.logout()
@@ -27,6 +34,14 @@ const quickActions = computed(() => [
     route: '/admin/users',
     visible: isAdmin.value,
     color: 'from-primary to-secondary'
+  },
+  {
+    title: 'Configurações do Sistema',
+    description: 'Personalizar marca, cores e identidade visual',
+    icon: Settings,
+    route: '/admin/settings',
+    visible: isRootAdmin.value,  // Apenas admin raiz pode acessar
+    color: 'from-secondary to-accent'
   },
   {
     title: 'Alterar Senha',
@@ -46,12 +61,19 @@ const quickActions = computed(() => [
       <div class="container mx-auto px-4 py-4">
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-3">
-            <div class="h-10 w-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+            <!-- Logo ou ícone padrão -->
+            <img
+              v-if="logoUrl"
+              :src="logoUrl"
+              :alt="brandName"
+              class="h-10 w-auto max-w-[150px] object-contain"
+            />
+            <div v-else class="h-10 w-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
               <LayoutDashboard class="h-5 w-5 text-white" />
             </div>
             <div>
               <h1 class="text-xl font-bold">Dashboard</h1>
-              <p class="text-sm text-muted-foreground">Base Template</p>
+              <p class="text-sm text-muted-foreground">{{ brandName }}</p>
             </div>
           </div>
           <BaseButton @click="handleLogout" variant="outline" size="sm">

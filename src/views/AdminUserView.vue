@@ -48,12 +48,34 @@ const tableColumns = [
   { key: 'actions', label: 'Ações', width: '25%', align: 'right' }
 ]
 
+// Helper: Normalizar role do backend (Admin -> admin)
+const normalizeRole = (role) => {
+  if (typeof role === 'string') {
+    return role.toLowerCase()
+  }
+  return role
+}
+
+// Helper: Capitalizar role para enum do backend (admin -> Admin)
+const capitalizeRole = (role) => {
+  const roleMap = {
+    'admin': 'Admin',
+    'user': 'User',
+    'moderator': 'Moderator'
+  }
+  return roleMap[role] || role
+}
+
 // Fetch all users
 const fetchUsers = async () => {
   isLoading.value = true
   try {
     const response = await api.get('/users')
-    users.value = response.data
+    // Normalizar roles para minúsculo para exibição
+    users.value = response.data.map(user => ({
+      ...user,
+      role: normalizeRole(user.role)
+    }))
   } catch (error) {
     console.error('Erro ao carregar usuários:', error)
   } finally {
@@ -83,7 +105,7 @@ const openEditModal = (user) => {
     name: user.name,
     email: user.email,
     password: '',
-    role: user.role
+    role: normalizeRole(user.role)
   }
   errors.value = { name: '', email: '', password: '', role: '' }
   showModal.value = true
@@ -134,15 +156,21 @@ const handleSubmit = async () => {
       const payload = {
         name: formData.value.name,
         email: formData.value.email,
-        role: formData.value.role
+        role: capitalizeRole(formData.value.role)
       }
       if (formData.value.password) {
-        payload.password = formData.value.password
+        payload.passwordHash = formData.value.password
       }
       await api.put(`/users/${formData.value.id}`, payload)
     } else {
-      // Create user
-      await api.post('/users', formData.value)
+      // Create user - remover campo id e capitalizar role
+      const payload = {
+        name: formData.value.name,
+        email: formData.value.email,
+        password: formData.value.password,
+        role: capitalizeRole(formData.value.role)
+      }
+      await api.post('/users', payload)
     }
     showModal.value = false
     await fetchUsers()

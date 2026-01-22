@@ -5,6 +5,7 @@ import { useAuthStore } from '@/stores/auth'
 import LoginView from '@/views/LoginView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import AdminUserView from '@/views/AdminUserView.vue'
+import AdminSettingsView from '@/views/AdminSettingsView.vue'
 import ChangePasswordView from '@/views/ChangePasswordView.vue'
 import AccessDeniedView from '@/views/AccessDeniedView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
@@ -39,6 +40,16 @@ const routes = [
     meta: {
       requiresAuth: true,
       roles: ['admin'],
+    },
+  },
+  {
+    path: '/admin/settings',
+    name: 'AdminSettings',
+    component: AdminSettingsView,
+    meta: {
+      requiresAuth: true,
+      roles: ['admin'],
+      requiresRootAdmin: true,  // Apenas admin raiz (sem CreatedById)
     },
   },
   {
@@ -90,6 +101,11 @@ router.beforeEach((to, from, next) => {
     if (!authStore.hasRole(requiredRoles)) {
       return next({ name: 'AccessDenied' })
     }
+  }
+
+  // Check if route requires root admin (only first admin without CreatedById)
+  if (to.meta.requiresRootAdmin && !authStore.isRootAdmin) {
+    return next({ name: 'AccessDenied' })
   }
 
   // Redirect authenticated users away from login
